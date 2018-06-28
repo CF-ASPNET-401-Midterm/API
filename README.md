@@ -19,7 +19,7 @@ insert pictures here?
 ## Architecture
 This application is created using ASP.NET Core 2.1 Web Application <br />
 *Languages*: C#, HTML, CSS <br />
-*Type of Applicaiton*: Web Application <br />
+*Type of Applicaiton*: API <br />
 
 ## Change Log
 06-28-2018 3:00 PM - initial scaffolding <br />
