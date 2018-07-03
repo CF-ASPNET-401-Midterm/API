@@ -33,6 +33,7 @@ namespace ApiTest
                     Album = "Red",
                     PlaylistID = 1
                 };
+                
                 Assert.Equal("Pop", song.Genre);
                 Assert.Equal("State of Grace", song2.Name);
 
@@ -54,13 +55,11 @@ namespace ApiTest
 
                 var result = pc.GetPlaylistByID(test.Id);
                 var result2 = pc.GetPlaylistByID(test2.Id);
-                
-                Assert.Equal()
+
+                Assert.Equal(test, result);
 
 
             }
-        }
-
         }
     }
 }
