@@ -46,8 +46,8 @@ namespace MusicParserAPI.Controllers
         {
             List<Song> ofSongs = new List<Song>();
             Playlist playlist = new Playlist();
+            playlist.GenreID = (genreID != null) ? genreID : 0;
             playlist.Songs = playlist.CreatePlaylist(ofSongs, genreID).Result;
-            playlist.Genre = playlist.Songs[0].Genre;
             playlist.Name = (genreID != null) ? playlist.Songs[0].Genre : "Unknown";
 
             await _context.Playlists.AddAsync(playlist);

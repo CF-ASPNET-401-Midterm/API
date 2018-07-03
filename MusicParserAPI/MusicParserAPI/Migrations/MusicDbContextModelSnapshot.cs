@@ -25,7 +25,7 @@ namespace MusicParserAPI.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Genre");
+                    b.Property<int?>("GenreID");
 
                     b.Property<string>("Name");
 
