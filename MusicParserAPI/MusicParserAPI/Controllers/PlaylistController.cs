@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MusicParserAPI.Data;
 using MusicParserAPI.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,28 +20,34 @@ namespace MusicParserAPI.Controllers
             _context = context;
         }
 
-        [HttpGet]
-        public IEnumerable<Playlist> Get()
+        [HttpGet(Name = "GetAll")]
+        public IEnumerable<Playlist> GetAll()
         {
             return _context.Playlists;
         }
 
-        [HttpGet("{id}", Name = "GetPlaylist")]
-        public IActionResult GetPlaylistByID([FromRoute]int id)
+        //[HttpGet("{id}", Name = "GetPlaylist")]
+        //public IActionResult GetPlaylistByID([FromRoute]int id)
+        //{
+        //    var playlist = _context.Playlists.FirstOrDefault(l => l.ID == id);
+        //    if (playlist == null)
+        //    {
+        //        return NotFound();
+        //    }
+
+        //    return Ok(playlist);
+        //}
+
+
+        [HttpGet(Name = "Create")]
+        public async Task<IActionResult> Create(string songList)
         {
-            var playlist = _context.Playlists.FirstOrDefault(l => l.ID == id);
-            playlist.Songs = _context.Songs.Where(i => i.Genre == playlist.Name).ToList();
-            if (playlist == null)
+            var songs = JsonConvert.DeserializeObject<List<Song>>(songList);
+            Playlist playlist = new Playlist()
             {
-                return NotFound();
-            }
-
-            return Ok(playlist);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody]Playlist playlist)
-        {
+                Songs = songs.ToList(),
+                Name = "John Example"
+            };
             await _context.Playlists.AddAsync(playlist);
             await _context.SaveChangesAsync();
 
