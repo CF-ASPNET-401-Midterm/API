@@ -200,7 +200,6 @@ namespace ApiTest
             playlist.Songs.Add(song);
             Assert.NotEmpty(playlist.Songs);
         }
-
         [Fact]
         public void CanCreatePlaylist()
         {
@@ -225,7 +224,6 @@ namespace ApiTest
             new DbContextOptionsBuilder<MusicDbContext>().UseInMemoryDatabase("apiDB").Options;
             using (MusicDbContext context = new MusicDbContext(options))
             {
-
                 var playlist = new Playlist();
                 playlist.Songs = new List<Song>();
                 playlist.CreatePlaylist(playlist.Songs, 2);

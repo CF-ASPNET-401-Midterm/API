@@ -11,8 +11,8 @@ namespace MusicParserAPI.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
+        public int? GenreID { get; set; }
         public List<Song> Songs { get; set; }
-        public string Genre { get; set; }
 
         public async Task<List<Song>> CreatePlaylist(List<Song> ofSongs, int? genreID)
         {
