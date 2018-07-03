@@ -46,7 +46,7 @@ namespace MusicParserAPI.Migrations
 
                     b.Property<string>("Name");
 
-                    b.Property<int?>("PlaylistID");
+                    b.Property<int>("PlaylistID");
 
                     b.Property<DateTime>("ReleaseDate");
 
@@ -61,7 +61,8 @@ namespace MusicParserAPI.Migrations
                 {
                     b.HasOne("MusicParserAPI.Models.Playlist")
                         .WithMany("Songs")
-                        .HasForeignKey("PlaylistID");
+                        .HasForeignKey("PlaylistID")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

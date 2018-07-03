@@ -76,7 +76,12 @@ namespace MusicParserAPI.Models
 
     public class PrimaryGenres
     {
-        public List<Genre> Music_genre_list { get; set; }
+        public List<MusicGenreList> Music_genre_list { get; set; }
+    }
+
+    public class MusicGenreList
+    {
+        public Genre Music_genre { get; set; }
     }
 
     public class Genre

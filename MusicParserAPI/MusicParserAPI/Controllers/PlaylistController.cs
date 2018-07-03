@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MusicParserAPI.Data;
 using MusicParserAPI.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MusicParserAPI.Controllers
@@ -20,38 +22,61 @@ namespace MusicParserAPI.Controllers
             _context = context;
         }
 
-        [HttpGet(Name = "GetAll")]
-        public IEnumerable<Playlist> GetAll()
+        [HttpGet]
+        public IEnumerable<Playlist> Get()
         {
             return _context.Playlists;
         }
 
-        //[HttpGet("{id}", Name = "GetPlaylist")]
-        //public IActionResult GetPlaylistByID([FromRoute]int id)
-        //{
-        //    var playlist = _context.Playlists.FirstOrDefault(l => l.ID == id);
-        //    if (playlist == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(playlist);
-        //}
-
-
-        [HttpGet(Name = "Create")]
-        public async Task<IActionResult> Create(string songList)
+        [HttpGet("{id}", Name = "GetPlaylist")]
+        public async Task<IActionResult> GetPlaylistByID([FromRoute]int id)
         {
-            var songs = JsonConvert.DeserializeObject<List<Song>>(songList);
-            Playlist playlist = new Playlist()
+            var playlist = _context.Playlists.FirstOrDefault(l => l.ID == id);
+            if (playlist == null)
             {
-                Songs = songs.ToList(),
-                Name = "John Example"
-            };
+                return NotFound();
+            }
+            playlist.Songs = await _context.Songs.Where(i => i.PlaylistID == id).ToListAsync();
+
+            return Ok(playlist);
+        }
+
+        [HttpPost("{genreID}")]
+        public async Task<IActionResult> PostByGenre(int? genreID)
+        {
+            List<Song> ofSongs = new List<Song>();
+            Playlist playlist = new Playlist();
+
+            playlist.Songs = playlist.CreatePlaylist(ofSongs, genreID).Result;
+            playlist.Name = (genreID != null) ? playlist.Songs[0].Genre : "Unknown";
+
             await _context.Playlists.AddAsync(playlist);
             await _context.SaveChangesAsync();
 
             return CreatedAtRoute("GetPlaylist", new { id = playlist.ID }, playlist);
+
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute]int id)
+        {
+            var playlist = await _context.Playlists.FindAsync(id);
+
+            if (playlist == null)
+            {
+                return NotFound();
+            }
+
+            List<Song> songs = await _context.Songs.Where(i => i.PlaylistID == id).ToListAsync();
+
+            foreach (Song song in songs)
+            {
+                _context.Songs.Remove(song);
+            }
+            
+            _context.Playlists.Remove(playlist);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }
