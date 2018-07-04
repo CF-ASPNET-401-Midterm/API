@@ -169,18 +169,18 @@ namespace ApiTest
         public void CanGetPlaylistGenre()
         {
             Playlist playlist = new Playlist();
-            playlist.Genre = "Jazz";
-            string genre = playlist.Genre;
-            Assert.Equal("Jazz", genre);
+            playlist.GenreID = 2;
+            int genre = playlist.GenreID;
+            Assert.Equal(2, genre);
         }
         [Fact]
         public void CanSetPlaylistGenre()
         {
             Playlist playlist = new Playlist();
-            playlist.Genre = "Jazz";
-            string genre = "Pop";
-            playlist.Genre = genre;
-            Assert.Equal(playlist.Genre, genre);
+            playlist.GenreID = 2;
+            int genre = 3;
+            playlist.GenreID = genre;
+            Assert.Equal(genre, playlist.GenreID);
         }
         [Fact]
         public void CanGetSongListName()
@@ -210,15 +210,17 @@ namespace ApiTest
             using (MusicDbContext context = new MusicDbContext(options))
             {
                 PlaylistController pc = new PlaylistController(context);
-                var test = pc.PostByGenre(2);
-                var test2 = pc.PostByGenre(4);
+                Playlist p1 = new Playlist();
+                Playlist p2 = new Playlist();
+                var test = pc.Post(p1);
+                var test2 = pc.Post(p2);
 
                 Assert.Equal(1, test.Id);
                 Assert.Equal(2, test2.Id);
             }
         }
         [Fact]
-        public void CanRetrieveSongs()
+        public async void CanRetrieveSongs()
         {
             DbContextOptions<MusicDbContext> options =
             new DbContextOptionsBuilder<MusicDbContext>().UseInMemoryDatabase("apiDB").Options;
@@ -226,7 +228,7 @@ namespace ApiTest
             {
                 var playlist = new Playlist();
                 playlist.Songs = new List<Song>();
-                playlist.CreatePlaylist(playlist.Songs, 2);
+                await playlist.CreatePlaylist(2);
                 Assert.NotEmpty(playlist.Songs);
             }
         }

@@ -11,19 +11,16 @@ namespace MusicParserAPI.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public int? GenreID { get; set; }
+        public int GenreID { get; set; }
         public List<Song> Songs { get; set; }
 
-        public async Task<List<Song>> CreatePlaylist(List<Song> ofSongs, int? genreID)
+        public async Task<List<Song>> CreatePlaylist(int genreID)
         {
+            List<Song> ofSongs = new List<Song>();
             using (var client = new HttpClient())
             {
-                string query = "";
-                if (genreID != null)
-                {
-                    query = $"&f_music_genre_id={genreID}";
-
-                }
+                string query = $"&f_music_genre_id={genreID}";
+                
                 // add the appropriate properties on top of the client base address.
                 client.BaseAddress = new Uri("https://api.musixmatch.com/");
 
