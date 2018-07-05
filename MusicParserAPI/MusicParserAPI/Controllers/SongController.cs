@@ -47,5 +47,48 @@ namespace MusicParserAPI.Controllers
             }
             return Ok(song);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]Song song)
+        {
+            await _context.Songs.AddAsync(song);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtRoute("GetSong", new { id = song.ID }, song);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put([FromRoute]int id, [FromBody]int playlistID)
+        {
+            var result = _context.Songs.FirstOrDefault(s => s.ID == id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            result.PlaylistID = playlistID;
+
+            _context.Songs.Update(result);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete([FromRoute]int id)
+        {
+            var song = await _context.Songs.FindAsync(id);
+
+            if (song == null)
+            {
+                return NotFound();
+            }
+
+            _context.Songs.Remove(song);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
     }
 }

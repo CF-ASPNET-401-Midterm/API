@@ -50,24 +50,31 @@ namespace MusicParserAPI.Controllers
 
             return Ok(playlist);
         }
-        /// <summary>
-        /// instantiates a playlist based off the genere the user requests for
-        /// </summary>
-        /// <param name="genreID"></param>
-        /// <returns>Sends the created playlist to our Get() method, which displays the playlist</returns>
-        [HttpPost("{genreID}")]
-        public async Task<IActionResult> PostByGenre(int genreID)
+        
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody]Playlist playlist)
         {
-            List<Song> ofSongs = new List<Song>();
-            Playlist playlist = new Playlist();
-            playlist.GenreID = genreID;
-            playlist.Songs = playlist.CreatePlaylist(ofSongs, genreID).Result;
-            playlist.Name = playlist.Songs[0].Genre;
-
             await _context.Playlists.AddAsync(playlist);
             await _context.SaveChangesAsync();
-
             return CreatedAtRoute("GetPlaylist", new { id = playlist.ID }, playlist);
+        }
+        
+        [HttpPut]
+        public async Task<IActionResult> Put([FromRoute]int id, [FromBody]string name)
+        {
+            Playlist result = await _context.Playlists.FirstOrDefaultAsync(p => p.ID == id);
+
+            if (result == null)
+            {
+                return NotFound();
+            }
+
+            result.Name = name;
+
+            _context.Playlists.Update(result);
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
         /// <summary>
         /// Deletes the specific playlist with the id they request
