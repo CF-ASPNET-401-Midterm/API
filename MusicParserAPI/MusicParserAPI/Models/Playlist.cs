@@ -20,15 +20,17 @@ namespace MusicParserAPI.Models
             using (var client = new HttpClient())
             {
                 string query = $"&f_music_genre_id={genreID}";
-                
+
                 // add the appropriate properties on top of the client base address.
                 client.BaseAddress = new Uri("https://api.musixmatch.com/");
 
-                //the .Result is important for us to extract the result of the response from the call
+                //Json object from 3rd party api : the .Result is important for us to extract the result of the response from the call
                 var response = client.GetAsync($"ws/1.1/track.search?format=json&callback=callback{query}&page_size=75&apikey=2bb0516b2619119643fd7b179a16f8b0").Result;
                 if (response.EnsureSuccessStatusCode().IsSuccessStatusCode)
                 {
+                    
                     Random num = new Random();
+                    // holds the already selected numbers
                     List<int> m = new List<int>();
                     var stringResult = await response.Content.ReadAsStringAsync();
                     Music item = JsonConvert.DeserializeObject<Music>(stringResult);
