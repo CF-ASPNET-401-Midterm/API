@@ -16,18 +16,28 @@ namespace MusicParserAPI.Controllers
     public class PlaylistController : ControllerBase
     {
         private MusicDbContext _context;
-
+        /// <summary>
+        /// Creating a reference to our Database
+        /// </summary>
+        /// <param name="context"></param>
         public PlaylistController(MusicDbContext context)
         {
             _context = context;
         }
-
+        /// <summary>
+        /// Grabs all of the default playlist we have created
+        /// </summary>
+        /// <returns>A list of Playlists from our database</returns>
         [HttpGet]
         public IEnumerable<Playlist> Get()
         {
             return _context.Playlists;
         }
-
+        /// <summary>
+        /// Grabs a specific playlist with the ID of the parameter
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>a network 200 OK sign along with the playlist of that id</returns>
         [HttpGet("{id}", Name = "GetPlaylist")]
         public async Task<IActionResult> GetPlaylistByID([FromRoute]int id)
         {
@@ -40,23 +50,30 @@ namespace MusicParserAPI.Controllers
 
             return Ok(playlist);
         }
-
+        /// <summary>
+        /// instantiates a playlist based off the genere the user requests for
+        /// </summary>
+        /// <param name="genreID"></param>
+        /// <returns>Sends the created playlist to our Get() method, which displays the playlist</returns>
         [HttpPost("{genreID}")]
-        public async Task<IActionResult> PostByGenre(int? genreID)
+        public async Task<IActionResult> PostByGenre(int genreID)
         {
             List<Song> ofSongs = new List<Song>();
             Playlist playlist = new Playlist();
-            playlist.GenreID = (genreID != null) ? genreID : 0;
+            playlist.GenreID = genreID;
             playlist.Songs = playlist.CreatePlaylist(ofSongs, genreID).Result;
-            playlist.Name = (genreID != null) ? playlist.Songs[0].Genre : "Unknown";
+            playlist.Name = playlist.Songs[0].Genre;
 
             await _context.Playlists.AddAsync(playlist);
             await _context.SaveChangesAsync();
 
             return CreatedAtRoute("GetPlaylist", new { id = playlist.ID }, playlist);
-
         }
-
+        /// <summary>
+        /// Deletes the specific playlist with the id they request
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute]int id)
         {
