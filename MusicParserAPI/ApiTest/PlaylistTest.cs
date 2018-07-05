@@ -27,7 +27,7 @@ namespace ApiTest
             song.Name = "Shake It Off";
             string name = "State of Grace";
             song.Name = name;
-            Assert.Equal(song.Name, name);
+            Assert.Equal(name, song.Name);
         }
         [Fact]
         public void CanGetSongID()
@@ -44,7 +44,7 @@ namespace ApiTest
             song.ID = 2;
             int id = 5;
             song.ID = id;
-            Assert.Equal(song.ID, id);
+            Assert.Equal(id, song.ID);
         }
         [Fact]
         public void CanGetSongGenre()
@@ -61,7 +61,7 @@ namespace ApiTest
             song.Genre = "Blues";
             string genre = "Jazz";
             song.Genre = genre;
-            Assert.Equal(song.Genre, genre);
+            Assert.Equal(genre, song.Genre);
         }
         [Fact]
         public void CanGetSongAlbum()
@@ -78,7 +78,7 @@ namespace ApiTest
             song.Album = "Fearless";
             string album = "Red";
             song.Album = album;
-            Assert.Equal(song.Album, album);
+            Assert.Equal(album, song.Album);
         }
         [Fact]
         public void CanGetSongArtist()
@@ -95,7 +95,7 @@ namespace ApiTest
             song.Artist = "Taylor Swift";
             string artist = "Still Taylor Swift";
             song.Artist = artist;
-            Assert.Equal(song.Artist, artist);
+            Assert.Equal(artist, song.Artist);
         }
         [Fact]
         public void CanGetSongReleaseDate()
@@ -112,7 +112,7 @@ namespace ApiTest
             song.ReleaseDate = DateTime.Parse("2014 - 01 - 01T00: 00:00");
             DateTime dt = DateTime.Today;
             song.ReleaseDate = dt;
-            Assert.Equal(song.ReleaseDate, dt);
+            Assert.Equal(dt, song.ReleaseDate);
         }
         [Fact]
         public void CanGetSongPlayListID()
@@ -129,7 +129,7 @@ namespace ApiTest
             song.PlaylistID = 5;
             int id = 10;
             song.PlaylistID = id;
-            Assert.Equal(song.PlaylistID, id);
+            Assert.Equal(id, song.PlaylistID);
         }
         [Fact]
         public void CanGetPlaylistID()
@@ -146,7 +146,7 @@ namespace ApiTest
             playlist.ID = 5;
             int ID = 10;
             playlist.ID = ID;
-            Assert.Equal(playlist.ID, ID);
+            Assert.Equal(ID, playlist.ID);
         }
         [Fact]
         public void CanGetPlaylistName()
@@ -154,7 +154,7 @@ namespace ApiTest
             Playlist playlist = new Playlist();
             playlist.Name = "John";
             string name = playlist.Name;
-            Assert.Equal(playlist.Name, name);
+            Assert.Equal(name, playlist.Name);
         }
         [Fact]
         public void CanSetPlaylistName()
@@ -163,24 +163,24 @@ namespace ApiTest
             playlist.Name = "John";
             string name = "Sam";
             playlist.Name = name;
-            Assert.Equal(playlist.Name, name);
+            Assert.Equal(name, playlist.Name);
         }
         [Fact]
         public void CanGetPlaylistGenre()
         {
             Playlist playlist = new Playlist();
-            playlist.Genre = "Jazz";
-            string genre = playlist.Genre;
-            Assert.Equal("Jazz", genre);
+            playlist.GenreID = 2;
+            int genre = playlist.GenreID;
+            Assert.Equal(2, genre);
         }
         [Fact]
         public void CanSetPlaylistGenre()
         {
             Playlist playlist = new Playlist();
-            playlist.Genre = "Jazz";
-            string genre = "Pop";
-            playlist.Genre = genre;
-            Assert.Equal(playlist.Genre, genre);
+            playlist.GenreID = 8;
+            int genre = 4;
+            playlist.GenreID = genre;
+            Assert.Equal(genre, playlist.Genre);
         }
         [Fact]
         public void CanGetSongListName()

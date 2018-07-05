@@ -41,6 +41,7 @@ namespace MusicParserAPI.Models
         public string Track_spotify_id { get; set; }
         public string Track_soundcloud_id { get; set; }
         public string Track_xboxmusic_id { get; set; }
+        // Song.Name
         public string Track_name { get; set; }
         public string[] Track_name_translation_list { get; set; }
         public int Track_rating { get; set; }
@@ -56,9 +57,11 @@ namespace MusicParserAPI.Models
         public long Lyrics_id { get; set; }
         public int Subtitle_id { get; set; }
         public long Album_id { get; set; }
+        // Song.Album
         public string Album_name { get; set; }
         public long Artist_id { get; set; }
         public string Artist_mbid { get; set; }
+        // Song.Artist
         public string Artist_name { get; set; }
         public string Album_coverart_100x100 { get; set; }
         public string Album_coverart_350x350 { get; set; }
@@ -68,6 +71,7 @@ namespace MusicParserAPI.Models
         public string Track_edit_url { get; set; }
         public string Commontrack_vanity_id { get; set; }
         public int Restricted { get; set; }
+        // Song.ReleaseDate
         public DateTime First_release_date { get; set; }
         public DateTime Updated_time { get; set; }
         public PrimaryGenres Primary_genres { get; set; }
@@ -85,7 +89,7 @@ namespace MusicParserAPI.Models
     }
 
     public class Genre
-    {
+    {   // Song.GenreID
         public int Music_genre_id { get; set; }
         public int Music_genre_parent_id { get; set; }
         public string Music_genre_name { get; set; }
