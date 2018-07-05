@@ -219,19 +219,19 @@ namespace ApiTest
                 Assert.Equal(2, test2.Id);
             }
         }
-        [Fact]
-        public async void CanRetrieveSongs()
-        {
-            DbContextOptions<MusicDbContext> options =
-            new DbContextOptionsBuilder<MusicDbContext>().UseInMemoryDatabase("apiDB").Options;
-            using (MusicDbContext context = new MusicDbContext(options))
-            {
-                var playlist = new Playlist();
-                playlist.Songs = new List<Song>();
-                await playlist.CreatePlaylist(2);
-                Assert.NotEmpty(playlist.Songs);
-            }
-        }
+        //[Fact]
+        //public async void CanRetrieveSongs()
+        //{
+        //    DbContextOptions<MusicDbContext> options =
+        //    new DbContextOptionsBuilder<MusicDbContext>().UseInMemoryDatabase("apiDB").Options;
+        //    using (MusicDbContext context = new MusicDbContext(options))
+        //    {
+        //        var playlist = new Playlist();
+        //        playlist.Songs = new List<Song>();
+        //        await playlist.CreatePlaylist(2);
+        //        Assert.NotEmpty(playlist.Songs);
+        //    }
+        //}
         [Fact]
         public void CanGetPlaylist()
         {
