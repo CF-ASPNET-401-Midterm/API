@@ -13,8 +13,9 @@ CF-ASPNET-401-Midterm/API is our groups back end to our web app. In our custom A
 2. The .NET desktop development workload enabled
 3. ASP.NET web API packages
 
-## Example
-insert pictures here?
+## Visuals
+- ![API Visual 1](https://puu.sh/ARrmH/39d03e7970.png)
+- ![API Visual 2](https://puu.sh/ARrK4/f3447b861c.png)
 
 ## Architecture
 This application is created using ASP.NET Core 2.1 Web Application <br />
