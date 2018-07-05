@@ -50,7 +50,11 @@ namespace MusicParserAPI.Controllers
 
             return Ok(playlist);
         }
-        
+        /// <summary>
+        /// Grabs values from body, and instantiates a new playlist object with those properties, saves new playlist to database
+        /// </summary>
+        /// <param name="playlist"></param>
+        /// <returns>Get method for that specific playlist</returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Playlist playlist)
         {
@@ -58,7 +62,12 @@ namespace MusicParserAPI.Controllers
             await _context.SaveChangesAsync();
             return CreatedAtRoute("GetPlaylist", new { id = playlist.ID }, playlist);
         }
-        
+        /// <summary>
+        /// Put method that allows the changing of the name
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <returns>a 200 OK route, if the playlist doesn't exist then not found page</returns>
         [HttpPut]
         public async Task<IActionResult> Put([FromRoute]int id, [FromBody]string name)
         {
