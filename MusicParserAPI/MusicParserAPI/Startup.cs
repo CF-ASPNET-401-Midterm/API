@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MusicParserAPI.Data;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace MusicParserAPI
 {
@@ -26,6 +27,10 @@ namespace MusicParserAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+            });
             services.AddDbContext<MusicDbContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("ProductionConnection")));
         }
@@ -33,6 +38,11 @@ namespace MusicParserAPI
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
