@@ -29,26 +29,10 @@ namespace MusicParserAPI.Models
                 if (response.EnsureSuccessStatusCode().IsSuccessStatusCode)
                 {
                     
-                    Random num = new Random();
-                    // holds the already selected numbers
-                    List<int> m = new List<int>();
                     var stringResult = await response.Content.ReadAsStringAsync();
                     Music item = JsonConvert.DeserializeObject<Music>(stringResult);
-                    List<TrackList> newList = new List<TrackList>();
-                    for(int i = 0; i < 8; i++)
-                    {
-                        int j = num.Next(0, item.Message.Body.Track_list.Count());
-                        if (!m.Contains(j))
-                        {
-                        m.Add(j);
-                        newList.Add(item.Message.Body.Track_list[j]);
-                        }
-                        else
-                        {
-                            i--;
-                        }
-                    }
-                    foreach (TrackList track in newList)
+
+                    foreach (TrackList track in item.Message.Body.Track_list)
                     {
                         Song song = new Song()
                         {

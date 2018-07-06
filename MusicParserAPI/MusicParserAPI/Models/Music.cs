@@ -43,7 +43,7 @@ namespace MusicParserAPI.Models
         public string Track_xboxmusic_id { get; set; }
         // Song.Name
         public string Track_name { get; set; }
-        public string[] Track_name_translation_list { get; set; }
+        public List<TrackNameTranslationList> Track_name_translation_list { get; set; }
         public int Track_rating { get; set; }
         public int Track_length { get; set; }
         public long Commontrack_id { get; set; }
@@ -72,10 +72,21 @@ namespace MusicParserAPI.Models
         public string Commontrack_vanity_id { get; set; }
         public int Restricted { get; set; }
         // Song.ReleaseDate
-        public DateTime First_release_date { get; set; }
-        public DateTime Updated_time { get; set; }
+        public DateTime? First_release_date { get; set; }
+        public DateTime? Updated_time { get; set; }
         public PrimaryGenres Primary_genres { get; set; }
         public PrimaryGenres Secondary_genres { get; set; }
+    }
+
+    public class TrackNameTranslationList
+    {
+        public TrackNameTranslation Track_name_translation { get; set; }
+    }
+
+    public class TrackNameTranslation
+    {
+        public string Language { get; set; }
+        public string Translation { get; set; }
     }
 
     public class PrimaryGenres
