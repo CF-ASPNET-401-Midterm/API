@@ -23,6 +23,7 @@ namespace MusicParserAPI.Controllers
         {
             _context = context;
         }
+
         /// <summary>
         /// Grabs all songs in our database
         /// </summary>
@@ -32,6 +33,7 @@ namespace MusicParserAPI.Controllers
         {
             return _context.Songs;
         }
+
         /// <summary>
         /// grabs a specific song with the ID of the parameter
         /// </summary>
@@ -47,7 +49,11 @@ namespace MusicParserAPI.Controllers
             }
             return Ok(song);
         }
-
+        /// <summary>
+        /// Creates a new song and adds it to our Song Database
+        /// </summary>
+        /// <param name="song"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]Song song)
         {
@@ -56,7 +62,12 @@ namespace MusicParserAPI.Controllers
 
             return CreatedAtRoute("GetSong", new { id = song.ID }, song);
         }
-
+        /// <summary>
+        /// Updates the playlist ID of a specific song
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="playlistID"></param>
+        /// <returns>a 200 OK</returns>
         [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromRoute]int id, [FromBody]int playlistID)
         {
@@ -74,7 +85,11 @@ namespace MusicParserAPI.Controllers
 
             return Ok();
         }
-
+        /// <summary>
+        /// Deletes a specific song from our Database
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Nothing</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete([FromRoute]int id)
         {
