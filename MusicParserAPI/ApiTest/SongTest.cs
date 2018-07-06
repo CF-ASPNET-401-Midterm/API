@@ -6,6 +6,7 @@ using MusicParserAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace ApiTest
@@ -13,7 +14,10 @@ namespace ApiTest
     public class SongTest
     {
         public object SongController { get; private set; }
-
+        public static async Task waitpls()
+        {
+            await Task.Delay(50);
+        }
         [Fact]
         public async void GetAllSongsTest()
         {
@@ -61,7 +65,7 @@ namespace ApiTest
                 {
                     Name = "test"
                 };
-                await context.Playlists.AddAsync(playlist);
+                context.Playlists.Add(playlist);
                 await context.SaveChangesAsync();
                 Song song = new Song()
                 {
@@ -73,14 +77,17 @@ namespace ApiTest
                     PlaylistID = 1
                 };
                 SongController sc = new SongController(context);
-                await context.Songs.AddAsync(song);
-                await context.SaveChangesAsync();
+                context.Songs.Add(song);
+                context.SaveChanges();
+
+                var findSong = await context.Songs.FirstAsync(s => s.Name == song.Name);
 
                 // Act
-                var result = sc.GetSongByID(1);
+                var result = sc.GetSongByID(findSong.ID);
                 var answer = (OkObjectResult)result;
+
                 // Assert
-                Assert.Equal(HttpStatusCode.OK , (HttpStatusCode)answer.StatusCode);
+                Assert.Equal((HttpStatusCode.OK), (HttpStatusCode)answer.StatusCode);
             }
         }
         [Fact]
@@ -101,14 +108,17 @@ namespace ApiTest
                 };
                 SongController sc = new SongController(context);
                 var test = sc.Post(song);
-                Assert.Equal(1, test.Id);
+                CreatedAtRouteResult carr = (CreatedAtRouteResult)test.Result;
+                Song mysoun = (Song)carr.Value;
+                Assert.Equal(1, mysoun.ID);
             }
         }
         [Fact]
-        public void CanPutSong()
+        public async void CanPutSong()
         {
             DbContextOptions<MusicDbContext> options =
-new DbContextOptionsBuilder<MusicDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
+            new DbContextOptionsBuilder<MusicDbContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
             using (MusicDbContext context = new MusicDbContext(options))
             {
                 Song song = new Song()
@@ -120,24 +130,25 @@ new DbContextOptionsBuilder<MusicDbContext>().UseInMemoryDatabase(Guid.NewGuid()
                     ReleaseDate = DateTime.Today,
                     PlaylistID = 1
                 };
-                context.Songs.AddAsync(song);
-                context.SaveChangesAsync();
+                await context.Songs.AddAsync(song);
+                await context.SaveChangesAsync();
                 SongController sc = new SongController(context);
-                var x = sc.Put(1, 2);
-                var response = sc.GetSongByID(1);
-                var result = (ObjectResult)response;
-
-                Assert.Equal(HttpStatusCode.OK, (HttpStatusCode)result.StatusCode.Value);
+                var findSong = await context.Songs.FirstAsync(s => s.Name == song.Name);
+                var x = sc.Put(findSong.ID, 2).Result;
+                var result = (OkResult)x;
+                Assert.Equal(HttpStatusCode.OK, (HttpStatusCode)result.StatusCode);
                 Assert.Equal(2, song.PlaylistID);
             }
         }
 
 
         [Fact]
-        public void CanDeleteSong()
+        public async Task CanDeleteSong()
         {
             DbContextOptions<MusicDbContext> options =
-new DbContextOptionsBuilder<MusicDbContext>().UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
+        new DbContextOptionsBuilder<MusicDbContext>()
+        .UseInMemoryDatabase(Guid.NewGuid().ToString()).Options;
+
             using (MusicDbContext context = new MusicDbContext(options))
             {
                 Song song = new Song()
@@ -150,9 +161,10 @@ new DbContextOptionsBuilder<MusicDbContext>().UseInMemoryDatabase(Guid.NewGuid()
                     PlaylistID = 1
                 };
                 SongController sc = new SongController(context);
-                context.Songs.AddAsync(song);
-                context.SaveChangesAsync();
-                var response = sc.Delete(1).Result;
+                await context.Songs.AddAsync(song);
+                await context.SaveChangesAsync();
+                var findSong = await context.Songs.FirstAsync(s => s.Name == song.Name);
+                var response = sc.Delete(findSong.ID).Result;
                 var result = (NoContentResult)response;
                 Assert.Equal(HttpStatusCode.NoContent, (HttpStatusCode)result.StatusCode);
             }

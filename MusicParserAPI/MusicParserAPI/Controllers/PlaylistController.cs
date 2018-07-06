@@ -68,7 +68,7 @@ namespace MusicParserAPI.Controllers
         /// <param name="id"></param>
         /// <param name="name"></param>
         /// <returns>a 200 OK route, if the playlist doesn't exist then not found page</returns>
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromRoute]int id, [FromBody]string name)
         {
             Playlist result = await _context.Playlists.FirstOrDefaultAsync(p => p.ID == id);
