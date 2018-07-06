@@ -102,7 +102,7 @@ namespace ApiTest
         {
             Song song = new Song();
             song.ReleaseDate = DateTime.Parse("2014 - 01 - 01T00: 00:00");
-            DateTime dt = song.ReleaseDate;
+            DateTime? dt = song.ReleaseDate;
             Assert.Equal(DateTime.Parse("2014 - 01 - 01T00: 00:00"), dt);
         }
         [Fact]
