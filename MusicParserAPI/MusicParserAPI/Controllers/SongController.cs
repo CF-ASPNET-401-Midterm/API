@@ -101,6 +101,7 @@ namespace MusicParserAPI.Controllers
             }
 
             _context.Songs.Remove(song);
+            await Task.Delay(25);
             await _context.SaveChangesAsync();
 
             return NoContent();
