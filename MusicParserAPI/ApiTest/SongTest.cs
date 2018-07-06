@@ -13,11 +13,6 @@ namespace ApiTest
 {
     public class SongTest
     {
-        public object SongController { get; private set; }
-        public static async Task waitpls()
-        {
-            await Task.Delay(50);
-        }
         [Fact]
         public async void GetAllSongsTest()
         {
