@@ -14,14 +14,15 @@ CF-ASPNET-401-Midterm/API is our groups back end to our web app. In our custom A
 3. ASP.NET web API packages
 
 ## Visuals
+http://musicparserapi.azurewebsites.net/swagger/index.html
 - ![API Visual 1](https://puu.sh/ARrmH/39d03e7970.png)
 - ![API Visual 2](https://puu.sh/ARrK4/f3447b861c.png)
 
 ## Architecture
 This application is created using ASP.NET Core 2.1 Web Application <br />
-*Languages*: C#, HTML, CSS <br />
-*Libraries*: ASP.NET, Bootstrap <br />
-*Type of Applicaiton*: API <br />
+*Languages*: C#, SQL <br />
+*Libraries*: ASP.NET, Bootstrap, SwaggerUI <br />
+*Type of Application*: API <br />
 
 ## Change Log
 **Monday** <br />

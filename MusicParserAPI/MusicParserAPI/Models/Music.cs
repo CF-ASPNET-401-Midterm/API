@@ -100,9 +100,10 @@ namespace MusicParserAPI.Models
     }
 
     public class Genre
-    {   // Song.GenreID
+    {   
         public int Music_genre_id { get; set; }
         public int Music_genre_parent_id { get; set; }
+        // Song.Genre
         public string Music_genre_name { get; set; }
         public string Music_genre_name_extended { get; set; }
         public string Music_genre_vanity { get; set; }
